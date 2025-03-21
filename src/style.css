@@ -6,7 +6,7 @@
     --text-light: rgba(239, 228, 228, 0.87);
 }
 
-/* Global Styles */
+/* Global Styles */ 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: var(--text-light);
@@ -22,7 +22,7 @@ body {
     z-index: 1000;
 }
 
-.navbar-brand {
+.navbar-brand { 
     font-size: 1.5rem;
     font-style: Barlow;
     font-weight: bolder;
