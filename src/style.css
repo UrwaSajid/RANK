@@ -137,6 +137,24 @@ body {
     color: white;
 }
 
+/* Update the register button to match login button */
+.register-btn {
+    background-color: var(--secondary-color);
+    color: #000;
+    border-radius: 28px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    margin-right: 10px;
+}
+
+.register-btn:hover {
+    background-color: #535bf2;
+    transform: translateY(-2px);
+    color: white;
+}
+
 /* Navigation Links */
 .nav-link {
     color: var(--text-light) !important;

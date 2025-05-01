@@ -8,6 +8,10 @@ const Navbar = () => {
         navigate('/signin');
     };
     
+    const handleRegister = () => {
+        navigate('/signup');
+    };
+    
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container">
@@ -25,6 +29,9 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#contact">Contact</a>
+                        </li>
+                        <li className="nav-item">
+                            <button className="register-btn ms-lg-3" onClick={handleRegister}>Register</button>
                         </li>
                         <li className="nav-item">
                             <button className="login-btn ms-lg-3" onClick={handleLogin}>Login</button>

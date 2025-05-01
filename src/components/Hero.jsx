@@ -6,7 +6,7 @@ const Hero = () => {
     const navigate = useNavigate();
     
     const handleGetStarted = () => {
-        navigate('/signin');
+        navigate('/signup'); // Changed to go to signup instead of signin
     };
     
     return (

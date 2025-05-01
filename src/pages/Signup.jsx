@@ -26,7 +26,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(4),
   gap: theme.spacing(2),
-  margin: 'auto',
+  margin: '2rem auto',
+  marginBottom: '2rem',
   [theme.breakpoints.up('sm')]: {
     width: '450px',
   },
@@ -37,16 +38,17 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: '100vh',
-  minHeight: '100%',
+  minHeight: '100vh', // Changed from height: '100vh'
   padding: theme.spacing(2),
+  paddingBottom: theme.spacing(4),
+  overflow: 'auto', // Add overflow auto
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
   '&::before': {
     content: '""',
     display: 'block',
-    position: 'absolute',
+    position: 'fixed', // Changed from absolute to fixed
     zIndex: -1,
     inset: 0,
     backgroundImage: 'linear-gradient(135deg, #1c2231 0%, #363e62 100%)',
