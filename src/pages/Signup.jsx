@@ -16,6 +16,8 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -24,7 +26,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(4),
   gap: theme.spacing(2),
-  margin: 'auto',
+  margin: '2rem auto',
+  marginBottom: '2rem',
   [theme.breakpoints.up('sm')]: {
     width: '450px',
   },
@@ -35,16 +38,17 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: '100vh',
-  minHeight: '100%',
+  minHeight: '100vh', // Changed from height: '100vh'
   padding: theme.spacing(2),
+  paddingBottom: theme.spacing(4),
+  overflow: 'auto', // Add overflow auto
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
   '&::before': {
     content: '""',
     display: 'block',
-    position: 'absolute',
+    position: 'fixed', // Changed from absolute to fixed
     zIndex: -1,
     inset: 0,
     backgroundImage: 'linear-gradient(135deg, #1c2231 0%, #363e62 100%)',
@@ -90,6 +94,8 @@ export default function SignUp() {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [serverError, setServerError] = React.useState('');
 
   const validateInputs = () => {
     const email = document.getElementById('email').value;
@@ -128,19 +134,42 @@ export default function SignUp() {
     return isValid;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const isValid = validateInputs();
-    
+
     if (isValid) {
+      setLoading(true);
+      setServerError('');
+
       const data = new FormData(event.currentTarget);
-      console.log({
+      const userData = {
         name: data.get('name'),
         email: data.get('email'),
         password: data.get('password'),
-      });
-      // Simulate successful signup
-      navigate('/');
+      };
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Registration failed');
+        }
+
+        navigate('/verify-otp', { state: { userId: result.userId } });
+      } catch (error) {
+        setServerError(error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -154,26 +183,35 @@ export default function SignUp() {
           <Typography
             component="h1"
             variant="h4"
-            sx={{ 
-              width: '100%', 
-              fontSize: 'clamp(2rem, 10vw, 2.15rem)', 
+            sx={{
+              width: '100%',
+              fontSize: 'clamp(2rem, 10vw, 2.15rem)',
               textAlign: 'center',
               fontWeight: 700,
               letterSpacing: '0.5px',
               background: 'linear-gradient(90deg, #cbccfa 0%, #535bf2 100%)',
               WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              WebkitTextFillColor: 'transparent',
             }}
           >
             Sign up
           </Typography>
+
+          {serverError && (
+            <Alert severity="error" sx={{ mt: 2, mb: 0 }}>
+              {serverError}
+            </Alert>
+          )}
+
           <Box
             component="form"
             onSubmit={handleSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name" sx={{ color: '#cbccfa' }}>Full name</FormLabel>
+              <FormLabel htmlFor="name" sx={{ color: '#cbccfa' }}>
+                Full name
+              </FormLabel>
               <TextField
                 autoComplete="name"
                 name="name"
@@ -184,8 +222,8 @@ export default function SignUp() {
                 error={nameError}
                 helperText={nameErrorMessage}
                 color={nameError ? 'error' : 'primary'}
-                sx={{ 
-                  '& .MuiOutlinedInput-root': { 
+                sx={{
+                  '& .MuiOutlinedInput-root': {
                     borderRadius: '8px',
                     '& fieldset': {
                       borderColor: 'rgba(203, 204, 250, 0.3)',
@@ -195,16 +233,18 @@ export default function SignUp() {
                     },
                     '&.Mui-focused fieldset': {
                       borderColor: '#535bf2',
-                    }
+                    },
                   },
                   '& .MuiInputBase-input': {
-                    color: 'var(--text-light)'
-                  }
+                    color: 'var(--text-light)',
+                  },
                 }}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="email" sx={{ color: '#cbccfa' }}>Email</FormLabel>
+              <FormLabel htmlFor="email" sx={{ color: '#cbccfa' }}>
+                Email
+              </FormLabel>
               <TextField
                 required
                 fullWidth
@@ -216,8 +256,8 @@ export default function SignUp() {
                 error={emailError}
                 helperText={emailErrorMessage}
                 color={emailError ? 'error' : 'primary'}
-                sx={{ 
-                  '& .MuiOutlinedInput-root': { 
+                sx={{
+                  '& .MuiOutlinedInput-root': {
                     borderRadius: '8px',
                     '& fieldset': {
                       borderColor: 'rgba(203, 204, 250, 0.3)',
@@ -227,16 +267,18 @@ export default function SignUp() {
                     },
                     '&.Mui-focused fieldset': {
                       borderColor: '#535bf2',
-                    }
+                    },
                   },
                   '& .MuiInputBase-input': {
-                    color: 'var(--text-light)'
-                  }
+                    color: 'var(--text-light)',
+                  },
                 }}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password" sx={{ color: '#cbccfa' }}>Password</FormLabel>
+              <FormLabel htmlFor="password" sx={{ color: '#cbccfa' }}>
+                Password
+              </FormLabel>
               <TextField
                 required
                 fullWidth
@@ -249,8 +291,8 @@ export default function SignUp() {
                 error={passwordError}
                 helperText={passwordErrorMessage}
                 color={passwordError ? 'error' : 'primary'}
-                sx={{ 
-                  '& .MuiOutlinedInput-root': { 
+                sx={{
+                  '& .MuiOutlinedInput-root': {
                     borderRadius: '8px',
                     '& fieldset': {
                       borderColor: 'rgba(203, 204, 250, 0.3)',
@@ -260,11 +302,11 @@ export default function SignUp() {
                     },
                     '&.Mui-focused fieldset': {
                       borderColor: '#535bf2',
-                    }
+                    },
                   },
                   '& .MuiInputBase-input': {
-                    color: 'var(--text-light)'
-                  }
+                    color: 'var(--text-light)',
+                  },
                 }}
               />
             </FormControl>
@@ -277,15 +319,16 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={loading}
               sx={{
                 background: 'linear-gradient(90deg, #535bf2 0%, #42456e 100%)',
                 color: 'white',
                 '&:hover': {
                   background: 'linear-gradient(90deg, #4349d8 0%, #383c60 100%)',
-                }
+                },
               }}
             >
-              Sign up
+              {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign up'}
             </Button>
           </Box>
           <Divider sx={{ my: 2, '&::before, &::after': { borderColor: 'rgba(203, 204, 250, 0.3)' } }}>
@@ -308,11 +351,7 @@ export default function SignUp() {
             </FacebookButton>
             <Typography sx={{ textAlign: 'center', mt: 2, color: 'var(--text-light)' }}>
               Already have an account?{' '}
-              <StyledLink
-                component={RouterLink}
-                to="/signin"
-                variant="body2"
-              >
+              <StyledLink component={RouterLink} to="/signin" variant="body2">
                 Sign in
               </StyledLink>
             </Typography>
