@@ -1,62 +1,89 @@
-The GitHub Simulation Console Application will allow users to create accounts, manage repositories,
-make commits, and follow other users. The application will be command-line based, focusing on the
-application of data structures such as linked lists, trees, graphs, and hash tables.
+# Rank - HR Management Platform
 
-Key Features
-1. User Accounts
-Registration: Allow users to create a new account with a unique username and password.
-Login/Logout: Enable users to login and logout from their account.
-Profile View: Users can view their/others profile, which includes their username, followers, repositories
-and files in specific repository if the repository is public.
+## Overview
+Rank is a web-based HR management platform designed to streamline employee evaluation and performance tracking. The platform enables senior staff to create organizational rooms, establish hierarchies, and provide structured feedback to employees. Employees can join these rooms, receive feedback, and monitor their performance over time. Rank simplifies HR processes and empowers organizations to effectively manage, evaluate, and develop their teams.
 
-2. Repositories
-Creation: Users can create new repositories.
-Deletion: Users have the option to delete their repositories.
-Fork: Users can copy the public repository including files and commits from any other use.
-Visibility: User have option to make their repositories private or public at the time of creation.
-Commit: Implement commits, allowing users to add “commits” to their repositories.
-View Stats: Users can view repository stats such as: Repo name, Repo files, Repo commits, Repo fork
-count
+## Key Features
+1. **Hierarchical Feedback System**
+   - Provide and receive feedback based on organizational structure
+   - Structured evaluation templates for consistent assessment
+   - Historical feedback tracking for growth measurement
 
-3. Files in repositories
-Add Files: Users can add/push files to a specific repository.
-Delete Files: Users can delete files from a specific repository.
+2. **Performance Analytics**
+   - Track employee performance with detailed reports and insights
+   - Visualize performance trends through charts and graphs
+   - Identify areas for improvement and strengths
 
-4. Social Features
-Follow/Unfollow: Users can follow or unfollow other users.
+3. **Decision-Making Tools**
+   - Enable senior staff to make informed decisions (promotions, warnings)
+   - Support for installment-based rewards or improvement plans
+   - Documentation of decision history
 
-Feature Details
-1. User Accounts
-Data Structure: Hash Table
-Usage: Hash tables are utilized for efficient user management, including registration, login, and profile
-viewing functionalities. Hash tables allow for quick access to user information based on unique keys (e.g.,
-usernames).
-Management:
-Registration: When a new user registers, their information is stored in the hash table with the username as
-the key.
-Login/Logout: The application queries the hash table to verify login credentials. Logout functionality
-updates the user’s status without deleting any data.
-Profile View: User profiles are retrieved using the hash table, displaying information like username,
-followers, repositories.
+4. **Customizable Feedback Criteria**
+   - Organizations can tailor feedback criteria to their specific needs
+   - Create custom evaluation metrics and scoring systems
+   - Define role-specific performance indicators
 
-2. Repositories
-Data Structures: Trees, Linked lists
-Trees:
-Usage: Trees represent the hierarchical structure of repositories, where each node in a tree represents a
-repository of specific user.
+5. **User-Friendly Interface**
+   - Intuitive design for all user levels
+   - Clear visualization of organizational hierarchies
+   - Simplified feedback submission and review process
 
-Management: Each repository is a node in a tree. Operations like creation and deletion modify the tree
-structure accordingly. The search time for repositories will be O(log n).
+6. **Data Security**
+   - Robust encryption for sensitive information
+   - Role-based access controls
+   - Compliance with data protection regulations
 
-Linked Lists:
-Usage: Each node representing a repository is further attached with two linked lists.
-Management: A linked list to store commits where each node represents the commit, and a linked list to
-store files where each node represents a file. New commits are added to the list’s head, preserving
-chronological order.
+7. **Mobile Compatibility**
+   - Responsive design for all devices (desktop, tablet, mobile)
+   - Optimized interfaces for different screen sizes
 
-3. Social Features
-Data Structure: Graphs
-Usage: Graphs are employed to represent the network of users, where vertices represent users and edges
-represent follow relationships.
-Management: When a user follows another, an edge is created between their vertices. Unfollowing
-removes the edge.
+## Functional Requirements
+
+### Module 1
+1. **User Management**
+   - User registration and login
+   - Role-based access control (senior staff vs. employees)
+   - Profile management (update personal details, view performance history)
+
+2. **Room Management**
+   - Room creation and joining functionality
+   - Hierarchical structure visualization
+   - Room code generation and distribution
+
+3. **Feedback System**
+   - Feedback submission and review
+   - Performance analytics and reporting
+   - Historical feedback tracking
+
+### Module 2
+1. **Advanced Feedback Tools**
+   - Customizable feedback criteria
+   - Decision-making tools (promotions, warnings, installments)
+   - Data visualization (charts, graphs for performance trends)
+
+2. **Platform Enhancement**
+   - Mobile-friendly design for on-the-go access
+   - Integration capabilities with third-party tools (e.g., Slack, Google Workspace)
+   - Privacy and security features (data encryption, access controls)
+
+## Constraints
+- The platform must be web-based and accessible on all devices (desktop, tablet, mobile)
+- All actions (e.g., feedback submission, decision-making) must align with ethical HR practices
+- The platform must comply with data privacy regulations (e.g., GDPR, CCPA)
+
+## Technology Stack
+- **Frontend**: HTML, CSS, JavaScript
+- **Design Tools**: Figma for UI/UX design
+- **Development Environment**: Visual Studio Code
+
+## Implementation Approach
+1. **Phase 1**: Core functionality implementation (user authentication, room management, basic feedback)
+2. **Phase 2**: Advanced features (analytics, decision tools, customization options)
+3. **Phase 3**: Platform optimization (mobile responsiveness, security enhancements)
+
+## Getting Started
+Instructions for setting up and running the project will be added as development progresses.
+
+## License
+[To be determined]
